@@ -24,7 +24,6 @@ namespace Records {
         info += "Ціна роботи: $" + QString::number(laborPrice) + "\n";
         info += QString("Вирішено: ") + (solved ? "так" : "ні");
 
-        // Используем QMessageBox для вывода информации
         QMessageBox::information(nullptr, "Fault Type Information", info);
     }
 
@@ -43,7 +42,6 @@ namespace Records {
         std::string part3Code = part3CodeLineEdit->text().toStdString();
         double laborPrice = laborPriceLineEdit->text().toDouble();
 
-        // Создание объекта FaultType с введенными данными
         return FaultType(code, modelCode, description, symptoms, repairMethods,
                          part1Code, part2Code, part3Code, laborPrice);
     }

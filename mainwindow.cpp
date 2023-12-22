@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     changePriceButton = new QPushButton("Change Labor Price", this);
     displayInfoButton = new QPushButton("Display Fault Type Info", this);
 
-    // Новые QLineEdit для ввода данных
     codeLineEdit = new QLineEdit(this);
     modelCodeLineEdit = new QLineEdit(this);
     descriptionLineEdit = new QLineEdit(this);
@@ -32,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(changePriceButton);
     layout->addWidget(displayInfoButton);
 
-    // Добавляем новые QLineEdit в макет
     layout->addWidget(codeLineEdit);
     layout->addWidget(modelCodeLineEdit);
     layout->addWidget(descriptionLineEdit);
@@ -65,63 +63,47 @@ void MainWindow::createDatabase()
 }
 
 void MainWindow::addFaultType() {
-    // Создаем объект FaultType с введенными данными
     Records::FaultType newFaultType = Records::FaultType::readFaultTypeFromGUI(
         codeLineEdit, modelCodeLineEdit, descriptionLineEdit,
         symptomsLineEdit, repairMethodsLineEdit,
         part1CodeLineEdit, part2CodeLineEdit, part3CodeLineEdit,
         laborPriceLineEdit);
 
-    // Добавляем объект в базу данных
     faultDatabase.addFaultType(newFaultType);
     QMessageBox::information(this, "Успішно", "Запис успішно додано в базу даних!");
 }
 
 void MainWindow::solveFault()
 {
-    // Введите код неисправности
     QString code = QInputDialog::getText(this, "Enter Fault Code", "Fault Code:");
 
-    // Получите объект FaultType из базы данных
     Records::FaultType& fault = faultDatabase.getFaultType(code.toStdString());
 
-    // Установите флаг решенности
     fault.setIsSolved(true);
-
-    // Вывод сообщения об успешном решении
     QMessageBox::information(this, "Success", "Fault marked as solved.");
 }
 
 void MainWindow::changeLaborPrice()
 {
-    // Введите код неисправности
     QString code = QInputDialog::getText(this, "Enter Fault Code", "Fault Code:");
 
-    // Получите объект FaultType из базы данных
     Records::FaultType& fault = faultDatabase.getFaultType(code.toStdString());
 
-    // Введите новую цену
     bool ok;
     double newPrice = QInputDialog::getDouble(this, "Enter New Labor Price", "New Labor Price:", 0, 0, 100000, 2, &ok);
 
-    // Если пользователь не отменил ввод
     if (ok) {
-        // Установите новую цену
         fault.setLaborPrice(newPrice);
 
-        // Вывод сообщения об успешном изменении цены
         QMessageBox::information(this, "Success", "Labor price changed successfully.");
     }
 }
 
 void MainWindow::displayFaultTypeInfo()
 {
-    // Введите код неисправности
     QString code = QInputDialog::getText(this, "Enter Fault Code", "Fault Code:");
 
-    // Получите объект FaultType из базы данных
     Records::FaultType& fault = faultDatabase.getFaultType(code.toStdString());
 
-    // Вывод информации о неисправности
     fault.displayInfo();
 }

@@ -3,7 +3,7 @@
 #define FAULTTYPE_H
 
 #include <string>
-#include <QLineEdit>  // Добавьте эту строку
+#include <QLineEdit>
 #include <QMessageBox>
 
 namespace Records {
